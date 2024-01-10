@@ -1,10 +1,11 @@
+import { Grid } from "@mui/material";
+import JobCard from "../JobCard/JobCard";
+
 function OrderLayout(props) {
     return (
-        <div>
-            <h1>
-                Order Layout
-            </h1>
-        </div>
+        <Grid container spacing={2} style={{ marginTop: 64 }}>
+            <JobCard />
+        </Grid>
     )
 }
 

@@ -1,11 +1,18 @@
 import './App.css';
-import Sidenav from './Components/Sidenav/Sidenav.js';
+import Layout from './Components/Layout/Layout';
+import Login from './Components/Login/Login';
+import { useUser } from './Components/Utils/UserContext';
 
+function App() {  
+  const { currentUser } = useUser();
 
-function App() {
   return (
     <div className="App">
-       <Sidenav />     
+      {currentUser ? (        
+          <Layout />                            
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }
