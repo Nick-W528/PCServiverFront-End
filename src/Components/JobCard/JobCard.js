@@ -1,6 +1,5 @@
 import "./JobCard.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Grid,
   Accordion,
@@ -12,14 +11,11 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SubJobCard from "../SubJobCard/SubJobCard";
 import { useUser } from "../Utils/UserContext";
-
-const client = await axios.create({
-  baseURL: "http://localhost:8800/",
-});
+import { JobService } from "../../Services/Jobs/JobService";
 
 function JobCard() {
   const [expanded, setExpanded] = useState(false);
-  const [subJob, setSubJob] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const { currentUser, fetchUserData } = useUser();
 
   useEffect(() => {
@@ -30,16 +26,10 @@ function JobCard() {
 
     if (currentUser) {
       const userId = currentUser._id;
-      client
-        .get("jobs/" + userId, {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          setSubJob(response.data);
-        });
-    }
+      JobService.GetJobsByUser(userId).then((response) => {
+        setJobs(response.data);
+      });      
+    }  
   }, [currentUser, fetchUserData]);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -62,7 +52,7 @@ function JobCard() {
 
   return (
     <>
-      {subJob.map((job, key) => (
+      {jobs.map((job, key) => (
         <Grid xs={12} item key={key}>
           <Divider sx={{ borderColor: "#fff" }} />
           <Accordion
