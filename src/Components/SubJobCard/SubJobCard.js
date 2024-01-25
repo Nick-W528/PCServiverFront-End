@@ -1,11 +1,19 @@
 import "./SubJobCard.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Grid, Typography } from "@mui/material";
+import { Drawer, Grid, Typography } from "@mui/material";
+import EditSubJob from "./Edit/EditSubJob";
 
 function SubJobCard(props) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedSubJob, setSelectedSubJob] = useState(null);
+  const [state, setState] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false
+  });    
 
   const client = axios.create({
     baseURL: "http://localhost:8800/",
@@ -21,7 +29,7 @@ function SubJobCard(props) {
       .catch((err) => {
         console.log(err);
       });
-  }, [props.id]);
+  }, [props.id, selectedSubJob]);
 
   const statusColor = (status) => {
     if (status === "New") {
@@ -35,7 +43,16 @@ function SubJobCard(props) {
     if (status === "Completed") {
       return "green";
     }
-  };
+  };  
+
+  const toggleDrawer = (anchor, open, item) => (event) => {    
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    } 
+        
+    setSelectedSubJob(item);
+    setState({ ...state, [anchor]: open });        
+  }; 
 
   return (
     <div>
@@ -44,8 +61,8 @@ function SubJobCard(props) {
       ) : (
         <Grid container spacing={2} sx={{marginBottom: '12px'}}>
           {data.map((item, key) => (
-            <Grid item xs={4} key={key}>            
-              <div className="sub-job-card-wrapper" key={key}>                
+            <Grid item xs={4} key={key} onClick={toggleDrawer('right', true, item)}>            
+              <div className="sub-job-card-wrapper">                
                   <Grid item xs={12}>
                     <Typography variant="h6" sx={{
                       textTransform: 'uppercase', fontWeight: 700
@@ -72,7 +89,16 @@ function SubJobCard(props) {
             </Grid>
           ))}
         </Grid>
-      )}
+      )}    
+      {selectedSubJob ? (
+        <Drawer 
+        anchor='right'
+        open={state['right']}
+        onClose={toggleDrawer('right', false, null)}>          
+            <EditSubJob state={toggleDrawer()} id={ selectedSubJob._id } name={selectedSubJob.name} description={selectedSubJob.description} />           
+        </Drawer>
+      ) : null }
+      
     </div>
   );
 }
