@@ -1,8 +1,8 @@
 import "./SubJobCard.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Drawer, Grid, Typography } from "@mui/material";
 import EditSubJob from "./Edit/EditSubJob";
+import { SubJobService } from '../../Services/SubJobs/SubJobService'
 
 function SubJobCard(props) {
   const [data, setData] = useState(null);
@@ -13,22 +13,15 @@ function SubJobCard(props) {
     left: false,
     bottom: false,
     right: false
-  });    
-
-  const client = axios.create({
-    baseURL: "http://localhost:8800/",
-  });
+  });      
 
   useEffect(() => {
-    client
-      .get("subjobs/" + props.id)
-      .then((res) => {
-        setData(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    SubJobService.GetSubJobsByJob(props.id).then((res) => {
+      setData(res.data);
+      setLoading(false);
+    }).catch((err) => {
+      console.log(err);
+    })   
   }, [props.id, selectedSubJob]);
 
   const statusColor = (status) => {

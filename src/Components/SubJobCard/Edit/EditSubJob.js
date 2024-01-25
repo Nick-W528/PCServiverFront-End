@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { SubJobService } from "../../../Services/SubJobs/SubJobService";
 
 function EditSubJob({ state, id, name, description }) {    
   const [subJobName, setSubJobName] = useState( name | null )
@@ -10,20 +10,14 @@ function EditSubJob({ state, id, name, description }) {
     setSubJobDescription(description)
   }, [name, description])  
   
-  const subJobId = id;  
-
-  const client = axios.create({
-    baseURL: "http://localhost:8800/subjobs",
-  })
+const subJobId = id;  
 
 const submitForm = () => {
   const id = subJobId
-  client.put(id, {
-    name: subJobName,
-    description: subJobDescription,
-  }).then((res) => {
-      state('', false, null);
-  })
+  SubJobService.EditSubJob(id, {subJobName,subJobDescription,})
+  .then((res) => {
+    state('', false, null);
+  })  
 }
 
   if (id) {
