@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import { UsersService } from '../../Services/Users/UsersService';
 
 const UserContext = createContext();
 
@@ -10,18 +10,28 @@ export const UserProvider = ({ children }) => {
         setCurrentUser(user);
     };
 
-    const fetchUserData = async (token) => {        
-        try {
-            const response = await axios.get('http://localhost:8800/users/current', {
-                headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                },                
-            })                
-            setUser(response.data);
-        } catch (err) {
-            setUser(null);
-            console.log(err);
-        }
+//     const fetchUserData = async (token) => {        
+//         try {
+//             const response = await axios.get('http://localhost:8800/users/current', {
+//                 headers: {
+//                     'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+//                 },                
+//             })                
+//             setUser(response.data);
+//         } catch (err) {
+//             setUser(null);
+//             console.log(err);
+//         }
+//   }
+
+  const fetchUserData = async (token) => {
+    try {
+        const response = await UsersService.getCurrentUser();
+        setUser(response);
+    } catch (err) {
+        setUser(null);
+        console.log(err);
+    }
   }
 
   useEffect(() => {
