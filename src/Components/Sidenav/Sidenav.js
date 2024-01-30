@@ -11,11 +11,14 @@ import {
   ListItemText,  
   Typography,  
 } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import VillaIcon from '@mui/icons-material/Villa';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useUser } from '../Utils/UserContext';
 
-const drawerWidth = 340;
+const drawerWidth = 300;
 
 function Sidenav() {  
   const {fetchUserData} = useUser();    
@@ -24,6 +27,13 @@ function Sidenav() {
     sessionStorage.removeItem('token');    
     fetchUserData(null);
   }  
+
+  const menuItems = [
+    { title: 'Home', icon: <VillaIcon sx={{ color: '#fff' }} />},
+    { title: 'Completed', icon: <AssignmentTurnedInIcon sx={{ color: '#fff' }} /> },
+    { title: 'Create New Project', icon: <AddCircleIcon sx={{ color: '#fff'}} /> },
+    { title: 'Setting', icon: <SettingsIcon sx={{ color: '#fff' }} /> }
+  ]
 
   return (    
     <>
@@ -40,11 +50,14 @@ function Sidenav() {
     </AppBar>
     <Drawer
       sx={{
-        width: drawerWidth,
+        width: drawerWidth,        
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
+          backgroundColor: '#0c0c0c',
+          borderRight: '1px solid #262626',
+          color: '#fff',
         },
       }}
       variant="permanent"
@@ -52,28 +65,46 @@ function Sidenav() {
     >
       <Toolbar />
       <Divider />
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
       <List>        
-          <ListItem disablePadding>
-            <ListItemButton>
+        {menuItems.map((item, key) => (
+           <ListItem key={key} disablePadding sx={{ margin: '20px 0' }}>
+           <ListItemButton>
+             <ListItemIcon>
+               {item.icon}
+             </ListItemIcon>
+             <ListItemText 
+              primary={item.title} 
+              sx={{ 
+                color: '#F4DFC8',
+                textTransform: 'uppercase',
+                '& .MuiTypography-root': {
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                }
+              }} 
+              />
+           </ListItemButton>
+         </ListItem>
+        ))}                     
+      </List>
+      <Divider sx={{ borderColor: '#262626', }} />
+      <List>        
+          <ListItem disablePadding sx={{ '& :hover': { backgroundColor: '#fff', color: '#000'}}}>
+            <ListItemButton onClick={handleLogout}>
               <ListItemIcon>
-                <button onClick={handleLogout}>
-                  Log Out
-                </button>
+                <PowerSettingsNewIcon sx={{ color: '#F4DFC8' }} />                  
               </ListItemIcon>
-              <ListItemText />
+              <ListItemText 
+                primary="Log Out"
+                sx={{ 
+                  color: '#F4DFC8',
+                  textTransform: 'uppercase',
+                  '& .MuiTypography-root': {
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                  }
+                }} 
+                />
             </ListItemButton>
           </ListItem>        
       </List>
