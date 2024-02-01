@@ -54,7 +54,7 @@ function SubJobCard(props) {
       ) : (
         <Grid container spacing={2} sx={{marginBottom: '12px'}}>
           {data.map((item, key) => (
-            <Grid item xs={4} key={key} onClick={toggleDrawer('right', true, item)}>            
+            <Grid item xs={12} key={key} onClick={toggleDrawer('right', true, item)}>            
               <div className="sub-job-card-wrapper">                
                   <Grid item xs={12}>
                     <Typography variant="h6" sx={{

@@ -53,8 +53,8 @@ function JobCard() {
   return (
     <>
       {jobs.map((job, key) => (
-        <Grid xs={12} item key={key}>
-          <Divider sx={{ borderColor: "#fff" }} />
+        <Grid xs={4} item key={key}>
+          <Divider sx={{ borderColor: "#F4DFC8" }} />
           <Accordion
             className="job-card-container"
             expanded={expanded === key}
@@ -75,7 +75,7 @@ function JobCard() {
             >
               <div className="job-details">
                 <div className="job-title">
-                  <Typography variant="h5">{job.name}</Typography>
+                  <Typography variant="h5" sx={{ color: '#F4DFC8' }}>{job.name}</Typography>
                 </div>
                 <div
                   className="job-status"
@@ -91,7 +91,7 @@ function JobCard() {
               <SubJobCard id={job._id} />
             </AccordionDetails>
           </Accordion>
-          <Divider sx={{ borderColor: "#fff" }} />
+          <Divider sx={{ borderColor: "#F4DFC8" }} />
         </Grid>
       ))}
     </>
