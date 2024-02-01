@@ -60,7 +60,7 @@ function JobCard() {
             expanded={expanded === key}
             onChange={handleChange(key)}
             sx={{
-              backgroundColor: "#000",
+              backgroundColor: "#0c0c0c",
               color: "#fff",
               marginBottom: 0,
               marginTop: 0,
