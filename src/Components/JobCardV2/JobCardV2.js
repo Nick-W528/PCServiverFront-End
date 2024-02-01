@@ -1,6 +1,6 @@
 import "./JobCardV2.css";
 import { useEffect, useState } from "react";
-import { Box, Grid, LinearProgress, Typography } from "@mui/material";
+import { Box, Chip, Grid, LinearProgress, Typography } from "@mui/material";
 import { useUser } from "../Utils/UserContext";
 import { JobService } from "../../Services/Jobs/JobService";
 
@@ -46,11 +46,12 @@ function JobCardV2() {
               color: "#F4DFC8",
               border: "1px solid #F4DFC8",
               padding: '20px 40px',              
+              borderRadius: '10px',
               cursor: 'pointer',
               transition: '0.2s ease-in-out',
               '&:hover': {
-                backgroundColor: '#F4DFC8',
-                color: '#0c0c0c',                        
+                // backgroundColor: '#F4DFC8',
+                // color: '#0c0c0c',                        
               }
             }}
           >
@@ -64,7 +65,7 @@ function JobCardV2() {
                   fontWeight: '700',
                   textTransform: 'uppercase',
                 }}>
-                  Task Completion
+                  <Chip label="8 days left" sx={{ fontSize:'12px', backgroundColor: '#F4DFC8', color: '#0c0c0c'}} />
                 </Typography>
               </Grid>
             </Grid>
@@ -94,7 +95,12 @@ function JobCardV2() {
               }}>
                 Progress
               </Typography>
-              <LinearProgress variant="determinate" value={10} />              
+              <LinearProgress variant="determinate" value={40} sx={{
+                backgroundColor: '#252525',
+                '& span': {
+                  backgroundColor: '#F4DFC8',
+                }
+              }} />              
             </Grid>
           </Box>
         </Grid>
