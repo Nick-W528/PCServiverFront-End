@@ -1,10 +1,14 @@
 import "./JobCardV2.css";
 import { useEffect, useState } from "react";
-import { Box, Chip, Grid, LinearProgress, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useUser } from "../Utils/UserContext";
 import { JobService } from "../../Services/Jobs/JobService";
+import JobDescription from "./Job_Description/Job_Description.js";
+import JobProgress from "./Job_Progress/Job_Progress.js";
+import JobStatus from "./Job_Status/Job_Status.js";
+import JobCompletionDate from "./Job_Completion/Job_Completion.js";
 
-function JobCardV2() {  
+function JobCardV2() {
   const [jobs, setJobs] = useState([]);
   const { currentUser, fetchUserData } = useUser();
 
@@ -22,20 +26,6 @@ function JobCardV2() {
     }
   }, [currentUser, fetchUserData]);
 
-  const statusColor = (status) => {
-    if (status === "New") {
-      return "#50C878";
-    }
-
-    if (status === "In Progress") {
-      return "Red";
-    }
-
-    if (status === "Completed") {
-      return "green";
-    }
-  };
-
   return (
     <>
       {jobs.map((job, key) => (
@@ -45,62 +35,40 @@ function JobCardV2() {
               backgroundColor: "#0c0c0c",
               color: "#F4DFC8",
               border: "1px solid #F4DFC8",
-              padding: '20px 40px',              
-              borderRadius: '10px',
-              cursor: 'pointer',
-              transition: '0.2s ease-in-out',
-              '&:hover': {
+              padding: "20px 40px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              transition: "0.2s ease-in-out",
+              "&:hover": {
                 // backgroundColor: '#F4DFC8',
-                // color: '#0c0c0c',                        
-              }
+                // color: '#0c0c0c',
+              },
             }}
           >
-            <Grid container xs={12} sx={{ marginBottom: '20px;'}}>
+            <Grid container xs={12} sx={{ marginBottom: "20px;" }}>
               <Grid xs={3}>IMG</Grid>
-              <Grid xs={9} sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}>
-                <Typography variant="caption" sx={{
-                  fontWeight: '700',
-                  textTransform: 'uppercase',
-                }}>
-                  <Chip label="8 days left" sx={{ fontSize:'12px', backgroundColor: '#F4DFC8', color: '#0c0c0c'}} />
-                </Typography>
+              <Grid
+                xs={9}
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <JobCompletionDate
+                  estimatedCompletion={job.estimatedCompletion}
+                />
               </Grid>
             </Grid>
-            <Grid xs={12} sx={{ marginBottom: '20px;'}}>
-              <Typography variant="h6" sx={{textTransform: 'uppercase', fontWeight: '700'}}>
-                Nickel Design Studio
-              </Typography>
-              <Typography variant="caption">
-                Redesign all the web pages with animation
-              </Typography>
-              <div
-                  className="job-status"
-                  style={{ backgroundColor: statusColor(job.status) }}
-                >
-                  <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                    {job.status}
-                  </Typography>
-                </div>
+            <Grid xs={12} sx={{ marginBottom: "20px;" }}>
+              <JobDescription
+                name={job.name}
+                description={job.description}
+                createdAt={job.createdAt}
+              />
+              <JobStatus status={job.status} />
             </Grid>
-            <Grid xs={12} sx={{              
-              marginBottom: '20px',            
-            }}>
-              <Typography variant="body2" sx={{
-                textTransform: 'uppercase',
-                color: '#F4DFC8',
-                fontWeight: 'bold',
-              }}>
-                Progress
-              </Typography>
-              <LinearProgress variant="determinate" value={40} sx={{
-                backgroundColor: '#252525',
-                '& span': {
-                  backgroundColor: '#F4DFC8',
-                }
-              }} />              
+            <Grid xs={12} sx={{ marginBottom: "20px" }}>
+              <JobProgress jobId={job._id} />
             </Grid>
           </Box>
         </Grid>
