@@ -1,0 +1,8 @@
+.job-status {
+    color: #141414;
+    padding: 5px 20px;
+    margin-top: 10px;
+    width: fit-content;
+    text-transform: uppercase;
+    font-weight:700;
+}
