@@ -17,6 +17,7 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useUser } from "../Utils/UserContext";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 300;
 
@@ -29,7 +30,7 @@ function Sidenav() {
   };
 
   const menuItems = [
-    { title: "Home", icon: <VillaIcon sx={{ color: "#F4DFC8" }} /> },
+    { title: "Home", href: "/", icon: <VillaIcon sx={{ color: "#F4DFC8" }} /> },
     {
       title: "Completed",
       icon: <AssignmentTurnedInIcon sx={{ color: "#F4DFC8" }} />,
@@ -73,62 +74,64 @@ function Sidenav() {
         <Divider />
         <List>
           {menuItems.map((item, key) => (
-            <ListItem key={key} disablePadding sx={{ margin: "20px 0px" }}>
-              <ListItemButton
-                sx={{
-                  margin: '0 16px',
-                  padding: '10px',
-                  borderRadius: '10px',
-                  transition: "0.2s ease-in-out",
-                  "&:hover": {
-                    backgroundColor: "#F4DFC8",                    
-                    "& .MuiListItemText-root": {
-                      color: "#0c0c0c !important",
-                    },
-                    "& .menu_icon svg": {
-                      color: "#0c0c0c !important",
-                    },
-                  },
-                }}
-              >
-                <ListItemIcon className="menu_icon">{item.icon}</ListItemIcon>
-                <ListItemText
-                  primary={item.title}
+            <Link to={item.href}>
+            <ListItem key={key} disablePadding sx={{ margin: "20px 0px" }}>              
+                <ListItemButton
                   sx={{
-                    color: "#F4DFC8",
-                    textTransform: "uppercase",
-                    "& .MuiTypography-root": {
-                      fontWeight: "bold",
-                      fontSize: 14,
+                    margin: "0 16px",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    transition: "0.2s ease-in-out",
+                    "&:hover": {
+                      backgroundColor: "#F4DFC8",
+                      "& .MuiListItemText-root": {
+                        color: "#0c0c0c !important",
+                      },
+                      "& .menu_icon svg": {
+                        color: "#0c0c0c !important",
+                      },
                     },
                   }}
-                />
-              </ListItemButton>
+                >
+                  <ListItemIcon className="menu_icon">{item.icon}</ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      color: "#F4DFC8",
+                      textTransform: "uppercase",
+                      "& .MuiTypography-root": {
+                        fontWeight: "bold",
+                        fontSize: 14,
+                      },
+                    }}
+                  />
+                </ListItemButton>              
             </ListItem>
+            </Link>
           ))}
         </List>
         <Divider sx={{ borderColor: "#262626" }} />
         <List>
-          <ListItem
-            disablePadding            
-          >
-            <ListItemButton onClick={handleLogout}
-             sx={{
-              margin: '0 16px',
-              padding: '10px',
-              borderRadius: '10px',
-              transition: "0.2s ease-in-out",
-              "&:hover": {
-                backgroundColor: "#F4DFC8",                    
-                "& .MuiListItemText-root": {
-                  color: "#0c0c0c !important",
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={handleLogout}
+              sx={{
+                margin: "0 16px",
+                padding: "10px",
+                borderRadius: "10px",
+                transition: "0.2s ease-in-out",
+                "&:hover": {
+                  backgroundColor: "#F4DFC8",
+                  "& .MuiListItemText-root": {
+                    color: "#0c0c0c !important",
+                  },
+                  "& .menu_icon svg": {
+                    color: "#0c0c0c !important",
+                  },
                 },
-                "& .menu_icon svg": {
-                  color: "#0c0c0c !important",
-                },
-              },
-            }}>
-              <ListItemIcon className="menu_icon" >
+              }}
+            >
+              <ListItemIcon className="menu_icon">
                 <PowerSettingsNewIcon sx={{ color: "#F4DFC8" }} />
               </ListItemIcon>
               <ListItemText

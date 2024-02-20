@@ -5,6 +5,7 @@ const client = await axios.create({
 })
 
 async function GetSubJobsByJob(id) {
+    console.log(id);
     return client.get(id);
 }
 

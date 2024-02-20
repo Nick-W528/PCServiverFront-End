@@ -1,8 +1,9 @@
 import "./SubJobCard.css";
 import { useEffect, useState } from "react";
-import { Drawer, Grid, Typography } from "@mui/material";
+import { Button, Drawer, Grid, Typography } from "@mui/material";
 import EditSubJob from "./Edit/EditSubJob";
-import { SubJobService } from '../../Services/SubJobs/SubJobService'
+import { SubJobService } from "../../Services/SubJobs/SubJobService";
+import { useParams, Link } from "react-router-dom";
 
 function SubJobCard(props) {
   const [data, setData] = useState(null);
@@ -12,17 +13,23 @@ function SubJobCard(props) {
     top: false,
     left: false,
     bottom: false,
-    right: false
-  });      
+    right: false,
+  });
+
+  let JobId = useParams();
 
   useEffect(() => {
-    SubJobService.GetSubJobsByJob(props.id).then((res) => {
-      setData(res.data);
-      setLoading(false);
-    }).catch((err) => {
-      console.log(err);
-    })   
-  }, [props.id, selectedSubJob]);
+    if (JobId !== undefined) {
+      SubJobService.GetSubJobsByJob(JobId.id)
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [JobId, selectedSubJob]);
 
   const statusColor = (status) => {
     if (status === "New") {
@@ -36,41 +43,58 @@ function SubJobCard(props) {
     if (status === "Completed") {
       return "green";
     }
-  };  
+  };
 
-  const toggleDrawer = (anchor, open, item) => (event) => {    
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  const toggleDrawer = (anchor, open, item) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
-    } 
-        
+    }
+
     setSelectedSubJob(item);
-    setState({ ...state, [anchor]: open });        
-  }; 
+    setState({ ...state, [anchor]: open });
+  };
 
   return (
     <div>
       {loading ? (
         <p>loading data...</p>
       ) : (
-        <Grid container spacing={2} sx={{marginBottom: '12px'}}>
+        <Grid container spacing={2} sx={{ marginBottom: "12px" }}>
+          <Grid item xs={12}>
+            <Link to="/">
+              <Button variant="contained">BACK</Button>
+            </Link>
+          </Grid>
           {data.map((item, key) => (
-            <Grid item xs={12} key={key} onClick={toggleDrawer('right', true, item)}>            
-              <div className="sub-job-card-wrapper">                
-                  <Grid item xs={12}>
-                    <Typography variant="h6" sx={{
-                      textTransform: 'uppercase', fontWeight: 700
-                      }}>
-                        {item.name}
-                    </Typography>
-                    <div className="status-wrapper">
-                      <div
-                        className="status-pill"
-                        style={{ backgroundColor: statusColor(item.status) }}
-                      >
-                        <p>{item.status}</p>
-                      </div>
+            <Grid
+              item
+              xs={12}
+              key={key}
+              onClick={toggleDrawer("right", true, item)}
+            >
+              <div className="sub-job-card-wrapper">
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textTransform: "uppercase",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {item.name}
+                  </Typography>
+                  <div className="status-wrapper">
+                    <div
+                      className="status-pill"
+                      style={{ backgroundColor: statusColor(item.status) }}
+                    >
+                      <p>{item.status}</p>
                     </div>
-                  </Grid>                
+                  </div>
+                </Grid>
 
                 <Grid item xs={12}>
                   <Grid item xs={8}>
@@ -78,20 +102,25 @@ function SubJobCard(props) {
                     <p>{item.description}</p>
                   </Grid>
                 </Grid>
-              </div>            
+              </div>
             </Grid>
           ))}
         </Grid>
-      )}    
+      )}
       {selectedSubJob ? (
-        <Drawer 
-        anchor='right'
-        open={state['right']}
-        onClose={toggleDrawer('right', false, null)}>          
-            <EditSubJob state={toggleDrawer()} id={ selectedSubJob._id } name={selectedSubJob.name} description={selectedSubJob.description} />           
+        <Drawer
+          anchor="right"
+          open={state["right"]}
+          onClose={toggleDrawer("right", false, null)}
+        >
+          <EditSubJob
+            state={toggleDrawer()}
+            id={selectedSubJob._id}
+            name={selectedSubJob.name}
+            description={selectedSubJob.description}
+          />
         </Drawer>
-      ) : null }
-      
+      ) : null}
     </div>
   );
 }

@@ -2,8 +2,7 @@ import { Typography, LinearProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import { SubJobService } from "../../../Services/SubJobs/SubJobService";
 
-function JobProgress({ jobId }) {
-  const [subJobs, setSubJobs] = useState(null);  
+function JobProgress({ jobId }) {  
   const [completedTaskCount, setCompletedTaskCount] = useState(null);
   const [totalTaskCount, setTotalTaskCount] = useState(null);
 
@@ -18,8 +17,7 @@ function JobProgress({ jobId }) {
         }
       });
       setCompletedTaskCount(completedTasks.length);
-      setTotalTaskCount(data.length);
-      setSubJobs(res.data);
+      setTotalTaskCount(data.length);      
     });
   }, [jobId]);  
 

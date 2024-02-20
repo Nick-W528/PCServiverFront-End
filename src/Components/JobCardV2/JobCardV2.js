@@ -1,12 +1,13 @@
 import "./JobCardV2.css";
 import { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Button } from "@mui/material";
 import { useUser } from "../Utils/UserContext";
 import { JobService } from "../../Services/Jobs/JobService";
 import JobDescription from "./Job_Description/Job_Description.js";
 import JobProgress from "./Job_Progress/Job_Progress.js";
 import JobStatus from "./Job_Status/Job_Status.js";
 import JobCompletionDate from "./Job_Completion/Job_Completion.js";
+import { Link } from "react-router-dom";
 
 function JobCardV2() {
   const [jobs, setJobs] = useState([]);
@@ -28,8 +29,9 @@ function JobCardV2() {
 
   return (
     <>
-      {jobs.map((job, key) => (
+      {jobs.map((job, key) => (        
         <Grid xs={4} item key={key}>
+          <Link to={`/subjob/${job._id}`} >
           <Box
             sx={{
               backgroundColor: "#0c0c0c",
@@ -70,8 +72,14 @@ function JobCardV2() {
             <Grid xs={12} sx={{ marginBottom: "20px" }}>
               <JobProgress jobId={job._id} />
             </Grid>
+            <Grid xs={12}>
+              {/* <Link to={`/subjob/${job._id}`} >
+                <Button variant="contained">VIEW</Button>
+              </ Link> */}
+            </Grid>
           </Box>
-        </Grid>
+          </Link>
+        </Grid>        
       ))}
     </>
   );
