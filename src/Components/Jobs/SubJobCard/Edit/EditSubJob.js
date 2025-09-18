@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SubJobService } from "../../../Services/SubJobs/SubJobService";
+import { SubJobService } from "../../../../Services/SubJobs/SubJobService";
 
 function EditSubJob({ state, id, name, description }) {    
   const [subJobName, setSubJobName] = useState( name | null )

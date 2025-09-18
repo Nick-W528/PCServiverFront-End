@@ -4,13 +4,14 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
 import { UserProvider } from "./Components/Utils/UserContext";
-import SubJobCard from "./Components/SubJobCard/SubJobCard.js";
-import JobCardV2 from "./Components/JobCardV2/JobCardV2.js";
+import SubJobCard from "./Components/Jobs/SubJobCard/SubJobCard.js";
+import JobCard from "./Components/Jobs/JobCard/JobCard.js";
+import { AppProvider } from "./Components/Utils/AppContext.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<JobCardV2 />} />
+      <Route index element={<JobCard />} />
       <Route path="/subjob/:id" element={<SubJobCard  />} />
     </Route>
   )
@@ -19,8 +20,10 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UserProvider>      
+    <UserProvider>     
+      <AppProvider>
       <RouterProvider router={router} />
+      </AppProvider> 
     </UserProvider>
   </React.StrictMode>
 );

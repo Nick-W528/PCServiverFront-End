@@ -47,7 +47,12 @@ function Sidenav() {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        sx={{
+          width: `calc(100% - ${drawerWidth}px)`,
+          ml: `${drawerWidth}px`,
+          backgroundColor: '#fff',
+          color: '#141414',
+         }}
       >
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
@@ -74,10 +79,10 @@ function Sidenav() {
         <Divider />
         <List>
           {menuItems.map((item, key) => (
-            <Link to={item.href}>
+            <Link key={key} to={item.href} style={{ textDecoration: "none" }}>
             <ListItem key={key} disablePadding sx={{ margin: "20px 0px" }}>              
                 <ListItemButton
-                  sx={{
+                  sx={{                    
                     margin: "0 16px",
                     padding: "10px",
                     borderRadius: "10px",
@@ -93,7 +98,7 @@ function Sidenav() {
                     },
                   }}
                 >
-                  <ListItemIcon className="menu_icon">{item.icon}</ListItemIcon>
+                  <ListItemIcon sx={{minWidth:35}}>{item.icon}</ListItemIcon>
                   <ListItemText
                     primary={item.title}
                     sx={{

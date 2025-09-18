@@ -1,5 +1,5 @@
 .App {
-  background-color:#191919;
+  background-color:#191919;  
 }
 
 .App-logo {
@@ -9,6 +9,7 @@
 
 html {
   height: 100vh;
+  background-color:#191919;
 }
 
 body, #root, .App {

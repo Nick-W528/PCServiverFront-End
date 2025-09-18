@@ -12,6 +12,15 @@ async function GetJobsByUser(id) {
     })    
 }
 
+async function GetJobsByDueDate(dueDate) {
+    return client.get(`date/${dueDate}`, {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        }
+    })
+}
+
 export const JobService = {
-    GetJobsByUser
+    GetJobsByUser,
+    GetJobsByDueDate
 }

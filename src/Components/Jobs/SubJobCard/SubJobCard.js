@@ -1,9 +1,11 @@
 import "./SubJobCard.css";
 import { useEffect, useState } from "react";
-import { Button, Drawer, Grid, Typography } from "@mui/material";
+import { Drawer, Grid, Typography } from "@mui/material";
 import EditSubJob from "./Edit/EditSubJob";
-import { SubJobService } from "../../Services/SubJobs/SubJobService";
-import { useParams, Link } from "react-router-dom";
+import { SubJobService } from "../../../Services/SubJobs/SubJobService";
+import { useParams } from "react-router-dom";
+import JobStatus from "../Job_Status/Job_Status";
+import GlobalLinkButton from "../../Shared/GlobalLinkButton/GlobalLinkButton";
 
 function SubJobCard(props) {
   const [data, setData] = useState(null);
@@ -29,21 +31,7 @@ function SubJobCard(props) {
           console.log(err);
         });
     }
-  }, [JobId, selectedSubJob]);
-
-  const statusColor = (status) => {
-    if (status === "New") {
-      return "blue";
-    }
-
-    if (status === "In Progress") {
-      return "Red";
-    }
-
-    if (status === "Completed") {
-      return "green";
-    }
-  };
+  }, []);
 
   const toggleDrawer = (anchor, open, item) => (event) => {
     if (
@@ -62,17 +50,21 @@ function SubJobCard(props) {
       {loading ? (
         <p>loading data...</p>
       ) : (
-        <Grid container spacing={2} sx={{ marginBottom: "12px" }}>
-          <Grid item xs={12}>
-            <Link to="/">
-              <Button variant="contained">BACK</Button>
-            </Link>
-          </Grid>
+        <Grid container spacing={2} sx={{ marginBottom: "12px" }}>          
+          <GlobalLinkButton link="/" buttonText="Back" />
           {data.map((item, key) => (
             <Grid
               item
               xs={12}
               key={key}
+              sx={{ 
+                backgroundColor: '#0c0c0c',
+                color: '#F4DFC8',
+                border: '1px solid #F4DFC8',
+                padding: '20px 40px',
+                borderRadius: '10px',
+                cursor: 'pointer',                
+              }}
               onClick={toggleDrawer("right", true, item)}
             >
               <div className="sub-job-card-wrapper">
@@ -86,14 +78,7 @@ function SubJobCard(props) {
                   >
                     {item.name}
                   </Typography>
-                  <div className="status-wrapper">
-                    <div
-                      className="status-pill"
-                      style={{ backgroundColor: statusColor(item.status) }}
-                    >
-                      <p>{item.status}</p>
-                    </div>
-                  </div>
+                  <JobStatus status={item.status} />
                 </Grid>
 
                 <Grid item xs={12}>

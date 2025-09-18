@@ -5,7 +5,7 @@ import { SubJobService } from "../../../Services/SubJobs/SubJobService";
 function JobProgress({ jobId }) {  
   const [completedTaskCount, setCompletedTaskCount] = useState(null);
   const [totalTaskCount, setTotalTaskCount] = useState(null);
-
+  
   let completedTasks = [];  
 
   useEffect(() => {
@@ -19,6 +19,7 @@ function JobProgress({ jobId }) {
       setCompletedTaskCount(completedTasks.length);
       setTotalTaskCount(data.length);      
     });
+    // eslint-disable-next-line
   }, [jobId]);  
 
   return (
