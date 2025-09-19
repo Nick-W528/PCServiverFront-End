@@ -12,12 +12,16 @@ async function GetJobsByUser(id) {
     })    
 }
 
-async function GetJobsByDueDate(dueDate) {
-    return client.get(`date/${dueDate}`, {
-        headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        }
-    })
+async function GetJobsByDueDate(id, dueDate) {
+    try {
+        return client.get(`${id}/date/${dueDate}`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            }
+        })
+    } catch (error) {
+        console.error("Error fetching jobs by due date:", error);        
+    }
 }
 
 export const JobService = {

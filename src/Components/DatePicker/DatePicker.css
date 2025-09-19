@@ -91,6 +91,10 @@
   box-shadow: 0 2px 6px rgba(37,99,235,0.3);
 }
 
+.calendar-cell.selected .job-items svg circle {
+  fill: #0c0c0c;
+}
+
 .calendar-cell.disabled {
   color: gray;
   cursor: default;

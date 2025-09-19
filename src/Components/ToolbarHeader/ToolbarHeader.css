@@ -1,0 +1,16 @@
+.toolbar_button {
+    min-width: 100px !important;    
+    background-color: #F4DFC8;
+    color: #0c0c0c;
+    font-weight: bold;
+    border-radius: 0;
+    border: 1px solid #F4DFC8;
+    border-color: #0c0c0c !important;
+    transition: all 0.3s ease-in;
+}
+
+.toolbar_button:hover {
+    background-color: #0c0c0c;
+    color: #F4DFC8;
+    border-color: #F4DFC8 !important;    
+}

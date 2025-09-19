@@ -8,8 +8,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-  Typography,
+  ListItemText,  
 } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import VillaIcon from "@mui/icons-material/Villa";
@@ -18,6 +17,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useUser } from "../Utils/UserContext";
 import { Link } from "react-router-dom";
+import ToolbarHeader from "../ToolbarHeader/ToolbarHeader";
 
 const drawerWidth = 300;
 
@@ -54,10 +54,8 @@ function Sidenav() {
           color: '#141414',
          }}
       >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Permanent drawer
-          </Typography>
+        <Toolbar style={{ backgroundColor: '#0c0c0c', borderBottom: '2px solid #F4DFC8'}}>
+          <ToolbarHeader />
         </Toolbar>
       </AppBar>
       <Drawer
