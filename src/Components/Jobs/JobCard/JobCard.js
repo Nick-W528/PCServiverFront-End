@@ -7,6 +7,7 @@ import JobDescription from "../Job_Description/Job_Description.js";
 import JobProgress from "../Job_Progress/Job_Progress.js";
 import JobStatus from "../Job_Status/Job_Status.js";
 import JobCompletionDate from "../Job_Completion/Job_Completion.js";
+import CreateJob from "../CreteJob/CreateJob.js";
 import { AppContext } from "../../Utils/AppContext.js";
 import { DateHelper } from "../../Utils/FormatDate.js";
 
@@ -15,36 +16,38 @@ function JobCard() {
   const { selectedDate } = useContext(AppContext);
   const { jobs, setJobs } = useContext(AppContext);
 
+  const fetchJobs = () => {    
+    const userId = currentUser._id;
+    try {
+      JobService.GetJobsByDueDate(
+        userId,
+        DateHelper.FormatDate(selectedDate)
+      ).then((response) => {
+        setJobs(response.data);
+      });
+    } catch (error) {
+      console.error("Error fetching jobs by due date:", error);
+    }
+  };
+
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token && !currentUser) {
       fetchUserData(token);
     }
 
-    if (currentUser) {
-      const userId = currentUser._id;
-      try {
-        JobService.GetJobsByDueDate(
-          userId,
-          DateHelper.FormatDate(selectedDate)
-        ).then((response) => {
-          setJobs(response.data);
-        });
-      } catch (error) {
-        console.error("Error fetching jobs by due date:", error);
-        return (
-          <Box>
-            <h2>Error fetching active jobs</h2>
-          </Box>
-        );
-      }
+    if (currentUser) {      
+      fetchJobs();
     }
-  }, [selectedDate, currentUser, fetchUserData, setJobs]);
+  }, [selectedDate, currentUser, fetchUserData, setJobs, jobs]);
 
   return (
     <>
+    <Grid xs={12} item spacing={2} sx={{ margin: "10px 10px" }}>
+      <CreateJob onJobCreated={fetchJobs} />
+    </Grid>
       {jobs.length !== 0 ? (
-        jobs.map((job, key) => (
+        jobs.map((job, key) => (          
           <Grid xs={12} item key={key} spacing={2} sx={{ margin: "10px 10px" }}>
             {/* <Link to={`/subjob/${job._id}`} style={{ textDecoration: "none" }}> */}
             <Box
@@ -92,13 +95,13 @@ function JobCard() {
               </Grid>
             </Box>
             {/* </Link> */}
-          </Grid>
+          </Grid>                    
         ))
       ) : (
         <Box sx={{ color: "#F4DFC8", marginTop: "20px", textAlign: "center" }}>
-          <h2>No jobs found for the selected date.</h2>
+          <h2>No jobs found for the selected date.</h2>          
         </Box>
-      )}
+      )}      
     </>
   );
 }
