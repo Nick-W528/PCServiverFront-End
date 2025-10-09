@@ -8,10 +8,12 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
 import { UserProvider } from "./Components/Utils/UserContext";
+import { AppProvider } from "./Components/Utils/AppContext.js";
+import theme from "./theme/index.js";
 import SubJobCard from "./Components/Jobs/SubJobCard/SubJobCard.js";
 import JobCard from "./Components/Jobs/JobCard/JobCard.js";
-import { AppProvider } from "./Components/Utils/AppContext.js";
 import { StyledEngineProvider } from "@mui/material/styles";
 
 const router = createBrowserRouter(
@@ -27,11 +29,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>
-      <UserProvider>
-        <AppProvider>
-          <RouterProvider router={router} />
-        </AppProvider>
-      </UserProvider>
+      <ThemeProvider theme={theme}>
+        <UserProvider>
+          <AppProvider>
+            <RouterProvider router={router} />
+          </AppProvider>
+        </UserProvider>
+      </ThemeProvider>
     </StyledEngineProvider>
   </React.StrictMode>
 );
